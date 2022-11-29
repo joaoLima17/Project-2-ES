@@ -4,6 +4,8 @@ import biz.ganttproject.core.time.GanttCalendar;
 import biz.ganttproject.core.time.TimeDuration;
 import net.sourceforge.ganttproject.task.Task;
 
+import java.util.concurrent.TimeUnit;
+
 
 public class PriorityProjectManagement {
 
@@ -35,15 +37,13 @@ public class PriorityProjectManagement {
 
   public void calculateSlack() {
     //slack = lateStart - earlyStart
-    int totalDays = 0;
-    for(int i = 0; i < 12; i++){
-      while(i > lateStart.getMonth() && i < earlyStart.getMonth()){
-        totalDays += MONTHS[i];
-      }
+
+
+    slack =TimeUnit.DAYS.convert(
+      lateStart.getTime().getTime()-earlyStart.getTime().getTime(), TimeUnit.DAYS);
+
     }
 
-    slack = ((lateStart.getYear() - earlyStart.getYear()) * 365) + totalDays + (lateStart.getDay() - earlyStart.getDay());
-  }
 
   public void calculateLateStart() { //lateFinish - duration;
 
