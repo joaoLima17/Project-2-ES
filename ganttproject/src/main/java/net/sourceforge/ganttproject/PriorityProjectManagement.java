@@ -1,9 +1,11 @@
 package net.sourceforge.ganttproject;
 
+import biz.ganttproject.core.time.CalendarFactory;
 import biz.ganttproject.core.time.GanttCalendar;
 import biz.ganttproject.core.time.TimeDuration;
 import net.sourceforge.ganttproject.task.Task;
 
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 
@@ -47,25 +49,11 @@ public class PriorityProjectManagement {
 
   public void calculateLateStart() { //lateFinish - duration;
 
-    if(lateFinish.getDay() - duration >= 1){
-      //lateStart = new GanttCalendar(lateFinish.getDay()-duration, lateFinish.getMonth(), lateFinish.getYear(), local);
-    } else {
-      float day;
-      if(lateFinish.getMonth()-1 == 2){
-        if(lateFinish.getYear() % 4 == 0){
-          day = 29 - (lateFinish.getDay() - duration);
-        } else {
-          day = 28 - (lateFinish.getDay() - duration);
-        }
-      } else if (lateFinish.getMonth()-1 == 4 || lateFinish.getMonth()-1 == 6 || lateFinish.getMonth()-1 == 9 ||
-        lateFinish.getMonth()-1 == 11){
-        day = 30 - (lateFinish.getDay() - duration);
-      } else {
-        day = 31 - (lateFinish.getDay() - duration);
-      }
-      //lateStart = new GanttCalendar(day, lateFinish.getMonth()-1, lateFinish.getYear(), local);
-    }
+    Calendar c = Calendar.getInstance();
+    c.setTime(lateFinish.getTime());
+    c.add(Calendar.DAY_OF_MONTH,(int) duration);
 
+    lateStart =CalendarFactory.createGanttCalendar(c.getTime());
   }
 
 
