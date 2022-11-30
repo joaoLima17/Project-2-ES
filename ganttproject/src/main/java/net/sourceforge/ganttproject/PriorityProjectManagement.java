@@ -35,9 +35,11 @@ public class PriorityProjectManagement {
 
   public void setLateFinish(GanttCalendar lateFinish){
     this.lateFinish = lateFinish;
+    calculateSlack();
+    calculateLateStart();
   }
 
-  public void calculateSlack() {
+  private void calculateSlack() {
     //slack = lateStart - earlyStart
 
 
